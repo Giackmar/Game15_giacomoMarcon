@@ -46,6 +46,7 @@ class ViewController: UIViewController {
     }
     @IBAction func Btn16(_ sender: UIButton) {
     }
+    //dichiaro
     @IBOutlet weak var Btn1: UIButton!
     @IBOutlet weak var Btn2: UIButton!
     @IBOutlet weak var Btn3: UIButton!
