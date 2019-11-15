@@ -26,7 +26,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var Btn14: UIButton!
     @IBOutlet weak var Btn15: UIButton!
     @IBOutlet weak var Btn16: UIButton!
-    var matrice: [[Int]] = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]];
+    
+    //var matrice: [[Int]] = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]];
+    
     var matriceButton: [[UIButton]] = [[]];
     var quantitaMischio = 100;
 
@@ -35,51 +37,27 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         matriceButton = [[Btn1,Btn2,Btn3,Btn4],[Btn5,Btn6,Btn7,Btn8],[Btn9,Btn10,Btn11,Btn12],[Btn13,Btn14,Btn15,Btn16]];
     }
-    //metodo che mi dice la posizione di un btn
-    //metodo che mi trova il 16(posizionevuota)
+    
+    //METODI DA FARE
+    //metodo che mi sposta il pulsante cliccato nella posizione "vuota"(16)
+    //per cambiare titolo--->       btn.setTitle("testo", for: .normal)
     func ControlloSeSpostabile(Btn : UIButton) -> Bool
     {
-        //trovo la posizione del bottone e controllo se posso spostarlo(se è adiacente alla posizione vuota(16))
-        return true//da modificare
+        //metodo che controlla se sono adiacenti
+        return true//da modificare ( TRUE se sono adiacenti, FALSE se non lo sono
     }
     
-    @IBAction func Btn1(_ sender: UIButton) {
-        var possoSposarlo = ControlloSeSpostabile(Btn: Btn1)//se è possibile spostarlo lo faccio
-        if(possoSposarlo)
+    
+    
+        
+    @IBAction func buttonPressed(_ sender: UIButton) {
+        let possoSpostarlo = ControlloSeSpostabile(Btn: sender)//se è possibile spostarlo lo faccio
+        if(possoSpostarlo)
         {
-            //faccio un metodo che mi dice la posizione del btn1 e la posizione di dove andrà
+            //metodo che mi sposta il pulsante cliccato nella posizione "vuota"(16)
         }
     }
-    @IBAction func Btn2(_ sender: UIButton) {
-    }
-    @IBAction func Btn3(_ sender: UIButton) {
-    }
-    @IBAction func Btn4(_ sender: UIButton) {
-    }
-    @IBAction func Btn5(_ sender: UIButton) {
-    }
-    @IBAction func Btn6(_ sender: UIButton) {
-    }
-    @IBAction func Btn7(_ sender: UIButton) {
-    }
-    @IBAction func Btn8(_ sender: UIButton) {
-    }
-    @IBAction func Btn9(_ sender: UIButton) {
-    }
-    @IBAction func Btn10(_ sender: UIButton) {
-    }
-    @IBAction func Btn11(_ sender: UIButton) {
-    }
-    @IBAction func Btn12(_ sender: UIButton) {
-    }
-    @IBAction func Btn13(_ sender: UIButton) {
-    }
-    @IBAction func Btn14(_ sender: UIButton) {
-    }
-    @IBAction func Btn15(_ sender: UIButton) {
-    }
-    @IBAction func Btn16(_ sender: UIButton) {
-    }
+ 
     
     
     
@@ -137,6 +115,30 @@ class ViewController: UIViewController {
                 matrice[pos1][pos3] = matrice[pos1][pos3];
                 matrice[pos1][pos3] = 16;
             }
+        }
+    }
+    
+    func PosizionePulsante(Btn : UIButton) -> [Int]
+    {
+        var Coordinate: [Int] = [0,0]
+        for pos1 in 0...3
+        {
+            for pos2 in 0...3
+            {
+                if(matriceButton[pos1][pos2]==Btn)
+                {
+                    Coordinate = [pos1,pos2]
+                }
+            }
+        }
+        return Coordinate
+    }
+    
+    func PulsantiAdiacenti(Btn:UIButton , BtnVuoto:UIButton)
+    {
+        if(PosizionePulsante(Btn: Btn)[0]==PosizionePulsante(Btn: BtnVuoto)[0] && (PosizionePulsante(Btn: Btn)[1]==PosizionePulsante(Btn: BtnVuoto)[1]+1 || PosizionePulsante(Btn: Btn)[1]==PosizionePulsante(Btn: BtnVuoto)[1]-1))
+        {
+            
         }
     }
 
