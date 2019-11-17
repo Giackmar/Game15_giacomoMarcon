@@ -27,78 +27,74 @@ class ViewController: UIViewController {
     @IBOutlet weak var Btn15: UIButton!
     @IBOutlet weak var Btn16: UIButton!
     
-    //var matrice: [[Int]] = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]];
-    
     var matriceButton: [[UIButton]] = [[]];
-    var quantitaMischio = 100;
+    var matriceButtonOrdinata: [[UIButton]] = [[]];
+    var numberMessUp;
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        matriceButton = [[Btn1,Btn2,Btn3,Btn4],[Btn5,Btn6,Btn7,Btn8],[Btn9,Btn10,Btn11,Btn12],[Btn13,Btn14,Btn15,Btn16]];
-    }
-    
-    //METODI DA FARE
-    //metodo che mi sposta il pulsante cliccato nella posizione "vuota"(16)
-    //per cambiare titolo--->       btn.setTitle("testo", for: .normal)
-    func ControlloSeSpostabile(Btn : UIButton) -> Bool
-    {
-        //metodo che controlla se sono adiacenti
-        return true//da modificare ( TRUE se sono adiacenti, FALSE se non lo sono
-    }
-    
-    
-    
         
+        matriceButton = [[Btn1,Btn2,Btn3,Btn4],[Btn5,Btn6,Btn7,Btn8],[Btn9,Btn10,Btn11,Btn12],[Btn13,Btn14,Btn15,Btn16]];
+        matriceButtonOrdinata = matriceButton;
+        //do in input la quantita di volte che devo mischiare le celle ( assegno numberMessUp )
+        messUp();
+    }
+    
+    
     @IBAction func buttonPressed(_ sender: UIButton) {
-        let possoSpostarlo = ControlloSeSpostabile(Btn: sender)//se è possibile spostarlo lo faccio
-        if(possoSpostarlo)
+        if(ButtonAreClose(_ sender:Btn)) //se il bottone cliccato(sender) è adiacente alla posizione vuota entro nell'if
         {
-            //metodo che mi sposta il pulsante cliccato nella posizione "vuota"(16)
-        }
-    }
- 
-    
-    
-    
-    func mischio()
-    {
-        for _ in 1...quantitaMischio
-        {
-            cercoNull();
+            //metodo che mi sposta il pulsante cliccato nella posizione "vuota"(16) e viceversa
         }
     }
     
-    func cercoNull()
+    func Victory() -> Bool
     {
-        for pos1 in 0...3
+        var Win = true;
+        var pos;
+        for pos in 0...15
         {
-            for pos2 in 0...3
+            if(matriceButton[pos]!=matriceButtonOrdinata[pos])
             {
-                if(matrice[pos1][pos2]==16)
-                {
-                    invertitore(pos1:pos1,pos2:pos2)
-                }
+                Win = false;
             }
         }
+        return Win
     }
     
-    func invertitore( pos1:Int, pos2:Int     )
+    func buttonClicked(Btn: UIButton)
+    {
+        var BtnPressedPos = ButtonPos(Btn);
+        var BtnEmptyPos = ButtonPos(Btn16);
+        matriceButton[BtnPressedPos] = Btn16;
+        matriceButton[BtnEmptyPos] = Btn;
+    }
+    
+    func messUp()
+    {
+        for _ in 1...numberMessUp
+        {
+            var pos = ButtonPos(Btn16)
+            invertitore(pos[0]:pos1,pos[1]:pos2)
+        }
+    }
+    
+    func invertitore( pos1:Int, pos2:Int)
     {
         let scelta = Bool.random()//genero un bool random ( vero o falso )
-        if(scelta)
+        if(scelta) // trasformare tutti if in metodo che richiamo più volte
         {
             if(pos1==0)
             {
                 var pos3=pos1+1;
-                matrice[pos1][pos2] = matrice[pos3][pos2];
-                matrice[pos3][pos2] = 16;
+                matriceButton[pos1][pos2] = matriceButton[pos3][pos2];
+                matriceButton[pos3][pos2] = Btn16;
             }
             else
             {
                 var pos3=pos1-1;
-                matrice[pos1][pos2] = matrice[pos3][pos2];
-                matrice[pos3][pos2] = 16;
+                matriceButton[pos1][pos2] = matriceButton[pos3][pos2];
+                matriceButton[pos3][pos2] = Btn16;
             }
         }
         else
@@ -106,19 +102,19 @@ class ViewController: UIViewController {
             if(pos2==0)
             {
                 var pos3=pos2+1;
-                matrice[pos1][pos3] = matrice[pos1][pos3];
-                matrice[pos1][pos3] = 16;
+                matriceButton[pos1][pos3] = matriceButton[pos1][pos3];
+                matriceButton[pos1][pos3] = Btn16;
             }
             else
             {
                 var pos3=pos1-1;
-                matrice[pos1][pos3] = matrice[pos1][pos3];
-                matrice[pos1][pos3] = 16;
+                matriceButton[pos1][pos3] = matriceButton[pos1][pos3];
+                matriceButton[pos1][pos3] = Btn16;
             }
         }
     }
     
-    func PosizionePulsante(Btn : UIButton) -> [Int]
+    func ButtonPos(Btn : UIButton) -> [Int]
     {
         var Coordinate: [Int] = [0,0]
         for pos1 in 0...3
@@ -134,13 +130,18 @@ class ViewController: UIViewController {
         return Coordinate
     }
     
-    func PulsantiAdiacenti(Btn:UIButton , BtnVuoto:UIButton)
+    func ButtonAreClose(Btn:UIButton) -> Bool //restituisce true se il bottone in input è adiacente al bottonevuoto(Btn16)
     {
-        if(PosizionePulsante(Btn: Btn)[0]==PosizionePulsante(Btn: BtnVuoto)[0] && (PosizionePulsante(Btn: Btn)[1]==PosizionePulsante(Btn: BtnVuoto)[1]+1 || PosizionePulsante(Btn: Btn)[1]==PosizionePulsante(Btn: BtnVuoto)[1]-1))
-        {
-            
-        }
+    var Next = false;
+    if((ButtonPos(Btn: Btn)[0]==ButtonPos(Btn: Btn16)[0]) && (ButtonPos(Btn: Btn)[1]==ButtonPos(Btn: Btn16)[1]+1 || ButtonPos(Btn: Btn)[1]==ButtonPos(Btn: Btn16)[1]-1))
+    {
+    Next = true
     }
+    if((ButtonPos(Btn: Btn)[1]==ButtonPos(Btn: Btn16)[1]) && (ButtonPos(Btn: Btn)[0]==ButtonPos(Btn: Btn16)[0]+1 || ButtonPos(Btn: Btn)[0]==ButtonPos(Btn: Btn16)[0]-1))
+    {
+    Next = true
+    }
+    return Next
 
 
 
