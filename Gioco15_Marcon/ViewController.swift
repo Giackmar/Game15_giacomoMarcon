@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     
     var matriceButton: [[UIButton]] = [[]];
     var matriceButtonOrdinata: [[UIButton]] = [[]];
-    var numberMessUp;
+    var numberMessUp = 10;// quante volte sposto una cella in fase di spostamento
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,19 +42,44 @@ class ViewController: UIViewController {
     
     
     @IBAction func buttonPressed(_ sender: UIButton) {
-        if(ButtonAreClose(_ sender:Btn)) //se il bottone cliccato(sender) è adiacente alla posizione vuota entro nell'if
+        if(ButtonAreClose(Btn:sender)) //se il bottone cliccato(sender) è adiacente alla posizione vuota entro nell'if
         {
             //metodo che mi sposta il pulsante cliccato nella posizione "vuota"(16) e viceversa
+        }
+    }
+    @IBAction func buttonCreaPartita(_ sender: UIButton) {
+        messUp();
+        for n in 0...3
+        {
+            for n1 in 0...3
+            {
+               Caricobtn(Btn: matriceButtonOrdinata[n][n1])
+            }
+        }
+        Btn1.setTitle("1", for: .normal)
+    }
+    
+    func Caricobtn(Btn:UIButton)
+    {
+        for n in 0...3
+        {
+            for n1 in 0...3
+            {
+                if(Btn==matriceButton[n][n1])
+                {
+                    let nFinal = (n*4)+n1
+                    Btn.setTitle(String(nFinal), for: .normal)
+                }
+            }
         }
     }
     
     func Victory() -> Bool
     {
         var Win = true;
-        var pos;
         for pos in 0...15
         {
-            if(matriceButton[pos]!=matriceButtonOrdinata[pos])
+            if(matriceButton[pos] != matriceButtonOrdinata[pos])
             {
                 Win = false;
             }
@@ -64,18 +89,22 @@ class ViewController: UIViewController {
     
     func buttonClicked(Btn: UIButton)
     {
-        var BtnPressedPos = ButtonPos(Btn);
-        var BtnEmptyPos = ButtonPos(Btn16);
-        matriceButton[BtnPressedPos] = Btn16;
-        matriceButton[BtnEmptyPos] = Btn;
+        let BtnPressedPos = ButtonPos(Btn: Btn);
+        let BtnEmptyPos = ButtonPos(Btn: Btn16);
+        let BtnPressedPos1  = BtnPressedPos[0]
+        let BtnPressedPos2 = BtnPressedPos[1]
+        let BtnEmptyPos1 = BtnEmptyPos[0]
+        let BtnEmptyPos2 = BtnEmptyPos[1]
+        matriceButton[BtnPressedPos1][BtnPressedPos2] = Btn16;
+        matriceButton[BtnEmptyPos1][BtnEmptyPos2] = Btn;
     }
     
     func messUp()
     {
         for _ in 1...numberMessUp
         {
-            var pos = ButtonPos(Btn16)
-            invertitore(pos[0]:pos1,pos[1]:pos2)
+            let pos = ButtonPos(Btn: Btn16)
+            invertitore(pos1: pos[0],pos2: pos[1])
         }
     }
     
@@ -86,13 +115,13 @@ class ViewController: UIViewController {
         {
             if(pos1==0)
             {
-                var pos3=pos1+1;
+                let pos3=pos1+1;
                 matriceButton[pos1][pos2] = matriceButton[pos3][pos2];
                 matriceButton[pos3][pos2] = Btn16;
             }
             else
             {
-                var pos3=pos1-1;
+                let pos3=pos1-1;
                 matriceButton[pos1][pos2] = matriceButton[pos3][pos2];
                 matriceButton[pos3][pos2] = Btn16;
             }
@@ -101,13 +130,13 @@ class ViewController: UIViewController {
         {
             if(pos2==0)
             {
-                var pos3=pos2+1;
+                let pos3=pos2+1;
                 matriceButton[pos1][pos3] = matriceButton[pos1][pos3];
                 matriceButton[pos1][pos3] = Btn16;
             }
             else
             {
-                var pos3=pos1-1;
+                let pos3=pos2-1;
                 matriceButton[pos1][pos3] = matriceButton[pos1][pos3];
                 matriceButton[pos1][pos3] = Btn16;
             }
@@ -145,5 +174,6 @@ class ViewController: UIViewController {
 
 
 
+}
 }
 
