@@ -53,7 +53,7 @@ class ViewController: UIViewController {
             for n1 in 0...3
             {
                Caricobtn(Btn: matriceButtonOrdinata[n][n1], num: num)
-               num = num +1
+               num += 1
             }
         }
     }
