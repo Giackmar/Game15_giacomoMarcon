@@ -36,8 +36,6 @@ class ViewController: UIViewController {
         
         matriceButton = [[Btn1,Btn2,Btn3,Btn4],[Btn5,Btn6,Btn7,Btn8],[Btn9,Btn10,Btn11,Btn12],[Btn13,Btn14,Btn15,Btn16]];
         matriceButtonOrdinata = matriceButton;
-        //do in input la quantita di volte che devo mischiare le celle ( assegno numberMessUp )
-        messUp();
     }
     
     
@@ -47,7 +45,7 @@ class ViewController: UIViewController {
             //metodo che mi sposta il pulsante cliccato nella posizione "vuota"(16) e viceversa
         }
     }
-    @IBAction func buttonCreaPartita(_ sender: UIButton) {
+    @IBAction func buttonCreaPartita(_ sender: UIButton) { //se cliccato mischia le celle (numberMessUp volte)
         messUp();
         for n in 0...3
         {
@@ -56,10 +54,9 @@ class ViewController: UIViewController {
                Caricobtn(Btn: matriceButtonOrdinata[n][n1])
             }
         }
-        Btn1.setTitle("1", for: .normal)
     }
     
-    func Caricobtn(Btn:UIButton)
+    func Caricobtn(Btn:UIButton) // in base a dove si trova il bottone gli assegno un numero
     {
         for n in 0...3
         {
@@ -67,7 +64,7 @@ class ViewController: UIViewController {
             {
                 if(Btn==matriceButton[n][n1])
                 {
-                    let nFinal = (n*4)+n1
+                    let nFinal = (n*4)+n1+1
                     Btn.setTitle(String(nFinal), for: .normal)
                 }
             }
