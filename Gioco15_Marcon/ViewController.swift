@@ -47,27 +47,11 @@ class ViewController: UIViewController {
     }
     @IBAction func buttonCreaPartita(_ sender: UIButton) { //se cliccato mischia le celle (numberMessUp volte)
         messUp();
-        var num = 1
-        for n in 0...3
+        for pos0 in 0...3
         {
-            for n1 in 0...3
+            for pos1 in 0...3
             {
-               Caricobtn(Btn: matriceButtonOrdinata[n][n1], num: num)
-               num += 1
-            }
-        }
-    }
-    
-    func Caricobtn(Btn:UIButton, num:Int) // in base a dove si trova il bottone gli assegno un numero
-    {
-        for n in 0...3
-        {
-            for n1 in 0...3
-            {
-                if(Btn==matriceButton[n][n1])
-                {
-                    matriceButtonOrdinata[n][n1].setTitle(String(num), for: .normal)
-                }
+                matriceButtonOrdinata[pos0][pos1].setTitle(matriceButton[pos0][pos1].title(for: .normal), for: .normal)
             }
         }
     }
@@ -116,6 +100,7 @@ class ViewController: UIViewController {
                 let pos3=pos1+1;
                 matriceButton[pos1][pos2] = matriceButton[pos3][pos2];
                 matriceButton[pos3][pos2] = Btn16;
+                
             }
             else
             {
