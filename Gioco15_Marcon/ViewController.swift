@@ -26,10 +26,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var Btn14: UIButton!
     @IBOutlet weak var Btn15: UIButton!
     @IBOutlet weak var Btn16: UIButton!
+    @IBOutlet weak var PckViewLivello: UIPickerView!
     
     var matriceButton: [[UIButton]] = [[]];
     var matriceButtonOrdinata: [[UIButton]] = [[]];
-    var numberMessUp = 10;// quante volte sposto una cella in fase di spostamento
+    var numberMessUp = 100;// quante volte sposto una cella in fase di spostamento
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,19 +40,35 @@ class ViewController: UIViewController {
     }
     
     
-    @IBAction func buttonPressed(_ sender: UIButton) {
-        if(ButtonAreClose(Btn:sender)) //se il bottone cliccato(sender) è adiacente alla posizione vuota entro nell'if
+    @IBAction func buttonPressed(_ sender : UIButton) {
+        if(ButtonAreClose(Btn: sender)) //se il bottone cliccato(sender) è adiacente alla posizione vuota entro nell'if
         {
-            //metodo che mi sposta il pulsante cliccato nella posizione "vuota"(16) e viceversa
+            buttonClicked(Btn: sender);
         }
     }
     @IBAction func buttonCreaPartita(_ sender: UIButton) { //se cliccato mischia le celle (numberMessUp volte)
         messUp();
-        for pos0 in 0...3
+        var num = 1
+        for n in 0...3
         {
-            for pos1 in 0...3
+            for n1 in 0...3
             {
-                matriceButtonOrdinata[pos0][pos1].setTitle(matriceButton[pos0][pos1].title(for: .normal), for: .normal)
+               Caricobtn(Btn: matriceButtonOrdinata[n][n1], num: num)
+               num += 1
+            }
+        }
+    }
+    
+    func Caricobtn(Btn:UIButton, num:Int) // in base a dove si trova il bottone gli assegno un numero
+    {
+        for n in 0...3
+        {
+            for n1 in 0...3
+            {
+                if(Btn==matriceButton[n][n1])
+                {
+                    matriceButtonOrdinata[n][n1].setTitle(String(num), for: .normal)
+                }
             }
         }
     }
@@ -77,7 +94,8 @@ class ViewController: UIViewController {
         let BtnPressedPos2 = BtnPressedPos[1]
         let BtnEmptyPos1 = BtnEmptyPos[0]
         let BtnEmptyPos2 = BtnEmptyPos[1]
-        matriceButton[BtnPressedPos1][BtnPressedPos2] = Btn16;
+        let BtnEmpty = matriceButton[BtnEmptyPos1][BtnEmptyPos2]
+        matriceButton[BtnPressedPos1][BtnPressedPos2] = BtnEmpty;
         matriceButton[BtnEmptyPos1][BtnEmptyPos2] = Btn;
     }
     
@@ -91,22 +109,39 @@ class ViewController: UIViewController {
     }
     
     func invertitore( pos1:Int, pos2:Int)
-    {
-        let scelta = Bool.random()//genero un bool random ( vero o falso )
-        if(scelta) // trasformare tutti if in metodo che richiamo più volte
+    { //genero un bool random ( vero o falso )
+        if(Bool.random()) // trasformare tutti if in metodo che richiamo più volte
         {
             if(pos1==0)
             {
                 let pos3=pos1+1;
+                let btn = matriceButton[pos1][pos2]
                 matriceButton[pos1][pos2] = matriceButton[pos3][pos2];
-                matriceButton[pos3][pos2] = Btn16;
-                
+                matriceButton[pos3][pos2] = btn
+            }
+            else if(pos1==3)
+            {
+                let pos3=pos1-1;
+                let btn = matriceButton[pos1][pos2]
+                matriceButton[pos1][pos2] = matriceButton[pos3][pos2];
+                matriceButton[pos3][pos2] = btn
             }
             else
             {
-                let pos3=pos1-1;
-                matriceButton[pos1][pos2] = matriceButton[pos3][pos2];
-                matriceButton[pos3][pos2] = Btn16;
+                if(Bool.random())
+                {
+                    let pos3=pos1+1;
+                    let btn = matriceButton[pos1][pos2]
+                    matriceButton[pos1][pos2] = matriceButton[pos3][pos2];
+                    matriceButton[pos3][pos2] = btn
+                }
+                else
+                {
+                    let pos3=pos1-1;
+                    let btn = matriceButton[pos1][pos2]
+                    matriceButton[pos1][pos2] = matriceButton[pos3][pos2];
+                    matriceButton[pos3][pos2] = btn
+                }
             }
         }
         else
@@ -114,14 +149,33 @@ class ViewController: UIViewController {
             if(pos2==0)
             {
                 let pos3=pos2+1;
-                matriceButton[pos1][pos3] = matriceButton[pos1][pos3];
-                matriceButton[pos1][pos3] = Btn16;
+                let btn = matriceButton[pos1][pos2]
+                matriceButton[pos1][pos2] = matriceButton[pos2][pos3];
+                matriceButton[pos2][pos3] = btn
+            }
+            else if(pos2==3)
+            {
+                let pos3=pos2-1;
+                let btn = matriceButton[pos1][pos2]
+                matriceButton[pos1][pos2] = matriceButton[pos2][pos3];
+                matriceButton[pos2][pos3] = btn
             }
             else
             {
-                let pos3=pos2-1;
-                matriceButton[pos1][pos3] = matriceButton[pos1][pos3];
-                matriceButton[pos1][pos3] = Btn16;
+                if(Bool.random())
+                {
+                    let pos3=pos2+1;
+                    let btn = matriceButton[pos1][pos2]
+                    matriceButton[pos1][pos2] = matriceButton[pos2][pos3];
+                    matriceButton[pos2][pos3] = btn
+                }
+                else
+                {
+                    let pos3=pos2-1;
+                    let btn = matriceButton[pos1][pos2]
+                    matriceButton[pos1][pos2] = matriceButton[pos2][pos3];
+                    matriceButton[pos2][pos3] = btn
+                }
             }
         }
     }
@@ -159,4 +213,3 @@ class ViewController: UIViewController {
 
 }
 }
-
