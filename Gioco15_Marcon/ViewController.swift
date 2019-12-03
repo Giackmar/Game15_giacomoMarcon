@@ -30,12 +30,13 @@ class ViewController: UIViewController {
     
     var matriceButton: [[UIButton]] = [[]];
     var matriceButtonOrdinata: [[UIButton]] = [[]];
-    var numberMessUp = 100;// quante volte sposto una cella in fase di spostamento
+    var numberMessUp = 1;// varia in base alla difficoltà(vedi metodo creaPartita)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         matriceButton = [[Btn1,Btn2,Btn3,Btn4],[Btn5,Btn6,Btn7,Btn8],[Btn9,Btn10,Btn11,Btn12],[Btn13,Btn14,Btn15,Btn16]];
+        
         matriceButtonOrdinata = matriceButton;
     }
     
@@ -43,10 +44,11 @@ class ViewController: UIViewController {
     @IBAction func buttonPressed(_ sender : UIButton) {
         if(ButtonAreClose(Btn: sender)) //se il bottone cliccato(sender) è adiacente alla posizione vuota entro nell'if
         {
-            buttonClicked(Btn: sender);
+            buttonClicked(Btn: sender) //sposto il bottone cliccato nella posizione adiacente libera
         }
     }
     @IBAction func buttonCreaPartita(_ sender: UIButton) { //se cliccato mischia le celle (numberMessUp volte)
+        //facile-->1*messUp    medio-->2*messUp   difficile-->5*messuUp     impossibile-->10*messUp
         messUp();
         var num = 1
         for n in 0...3
@@ -67,7 +69,14 @@ class ViewController: UIViewController {
             {
                 if(Btn==matriceButton[n][n1])
                 {
-                    matriceButtonOrdinata[n][n1].setTitle(String(num), for: .normal)
+                    if(num==16)
+                    {
+                        matriceButtonOrdinata[n][n1].setTitle(String(), for: .normal)//devo mettere niente perchè è ls posizione vuota
+                    }
+                    else
+                    {
+                       matriceButtonOrdinata[n][n1].setTitle(String(num), for: .normal)
+                    }
                 }
             }
         }
@@ -95,13 +104,15 @@ class ViewController: UIViewController {
         let BtnEmptyPos1 = BtnEmptyPos[0]
         let BtnEmptyPos2 = BtnEmptyPos[1]
         let BtnEmpty = matriceButton[BtnEmptyPos1][BtnEmptyPos2]
+        //nel bottone vuoto metto il titolo di Btn (che ricevo in input)
+        //nel Btn metto il titolo vuoto
         matriceButton[BtnPressedPos1][BtnPressedPos2] = BtnEmpty;
-        matriceButton[BtnEmptyPos1][BtnEmptyPos2] = Btn;
+        matriceButton[BtnEmptyPos1][BtnEmptyPos2] = Btn
     }
     
     func messUp()
     {
-        for _ in 1...numberMessUp
+        for _ in 1...10
         {
             let pos = ButtonPos(Btn: Btn16)
             invertitore(pos1: pos[0],pos2: pos[1])
