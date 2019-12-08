@@ -34,14 +34,14 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        matriceButton = [[Btn1,Btn2,Btn3,Btn4],[Btn5,Btn6,Btn7,Btn8],[Btn9,Btn10,Btn11,Btn12],[Btn13,Btn14,Btn15,Btn16]];
-        
-        matriceButtonOrdinata = matriceButton;
+            matriceButton = [[Btn1,Btn2,Btn3,Btn4],[Btn5,Btn6,Btn7,Btn8],[Btn9,Btn10,Btn11,Btn12],[Btn13,Btn14,Btn15,Btn16]];
+            
+            matriceButtonOrdinata = matriceButton;
     }
     
     
     @IBAction func buttonPressed(_ sender : UIButton) {
+        Position()
         if(ButtonAreClose(Btn: sender)) //se il bottone cliccato(sender) è adiacente alla posizione vuota entro nell'if
         {
             buttonClicked(Btn: sender) //sposto il bottone cliccato nella posizione adiacente libera
@@ -50,7 +50,7 @@ class ViewController: UIViewController {
     @IBAction func buttonCreaPartita(_ sender: UIButton) { //se cliccato mischia le celle (numberMessUp volte)
         //facile-->1*messUp    medio-->2*messUp   difficile-->5*messuUp     impossibile-->10*messUp
         messUp();
-        var num = 1
+        /*var num = 1
         for n in 0...3
         {
             for n1 in 0...3
@@ -58,7 +58,7 @@ class ViewController: UIViewController {
                Caricobtn(Btn: matriceButtonOrdinata[n][n1], num: num)
                num += 1
             }
-        }
+        }*/
     }
     
     func Caricobtn(Btn:UIButton, num:Int) // in base a dove si trova il bottone gli assegno un numero
@@ -97,17 +97,17 @@ class ViewController: UIViewController {
     
     func buttonClicked(Btn: UIButton)
     {
-        let BtnPressedPos = ButtonPos(Btn: Btn);
-        let BtnEmptyPos = ButtonPos(Btn: Btn16);
-        let BtnPressedPos1  = BtnPressedPos[0]
-        let BtnPressedPos2 = BtnPressedPos[1]
-        let BtnEmptyPos1 = BtnEmptyPos[0]
-        let BtnEmptyPos2 = BtnEmptyPos[1]
-        let BtnEmpty = matriceButton[BtnEmptyPos1][BtnEmptyPos2]
-        //nel bottone vuoto metto il titolo di Btn (che ricevo in input)
-        //nel Btn metto il titolo vuoto
-        matriceButton[BtnPressedPos1][BtnPressedPos2] = BtnEmpty;
-        matriceButton[BtnEmptyPos1][BtnEmptyPos2] = Btn
+        var btnX = ButtonPos1(Btn: Btn)[0]
+        var btnY = ButtonPos1(Btn: Btn)[1]
+        var EmptyX = ButtonPos2()[0]
+        var EmptyY = ButtonPos2()[1]
+        var BtnEmpty = matriceButton[EmptyX][EmptyY]
+        var titoloSaved = Btn.title(for: .normal)
+        BtnEmpty.setTitle(Btn.title(for: .normal), for: .normal
+        )
+        Btn.setTitle(titoloSaved, for: .normal)
+        matriceButton[EmptyX][EmptyY] = Btn
+        matriceButton[btnX][btnY] = BtnEmpty
     }
     
     func messUp()
@@ -116,6 +116,7 @@ class ViewController: UIViewController {
         {
             let pos = ButtonPos(Btn: Btn16)
             invertitore(pos1: pos[0],pos2: pos[1])
+            Position()
         }
     }
     
@@ -127,15 +128,25 @@ class ViewController: UIViewController {
             {
                 let pos3=pos1+1;
                 let btn = matriceButton[pos1][pos2]
-                matriceButton[pos1][pos2] = matriceButton[pos3][pos2];
+                let btn2 = matriceButton[pos3][pos2]
+                let titolo1 = btn.title(for: .normal)
+                let titolo2 = btn2.title(for: .normal)
+                matriceButton[pos1][pos2] = btn2
                 matriceButton[pos3][pos2] = btn
+                btn2.setTitle(titolo1, for: .normal)
+                btn.setTitle(titolo2, for: .normal)
             }
             else if(pos1==3)
             {
                 let pos3=pos1-1;
                 let btn = matriceButton[pos1][pos2]
-                matriceButton[pos1][pos2] = matriceButton[pos3][pos2];
+                let btn2 = matriceButton[pos3][pos2]
+                let titolo1 = btn.title(for: .normal)
+                let titolo2 = btn2.title(for: .normal)
+                matriceButton[pos1][pos2] = btn2
                 matriceButton[pos3][pos2] = btn
+                btn2.setTitle(titolo1, for: .normal)
+                btn.setTitle(titolo2, for: .normal)
             }
             else
             {
@@ -143,15 +154,25 @@ class ViewController: UIViewController {
                 {
                     let pos3=pos1+1;
                     let btn = matriceButton[pos1][pos2]
-                    matriceButton[pos1][pos2] = matriceButton[pos3][pos2];
+                    let btn2 = matriceButton[pos3][pos2]
+                    let titolo1 = btn.title(for: .normal)
+                    let titolo2 = btn2.title(for: .normal)
+                    matriceButton[pos1][pos2] = btn2
                     matriceButton[pos3][pos2] = btn
+                    btn2.setTitle(titolo1, for: .normal)
+                    btn.setTitle(titolo2, for: .normal)
                 }
                 else
                 {
                     let pos3=pos1-1;
                     let btn = matriceButton[pos1][pos2]
-                    matriceButton[pos1][pos2] = matriceButton[pos3][pos2];
+                    let btn2 = matriceButton[pos3][pos2]
+                    let titolo1 = btn.title(for: .normal)
+                    let titolo2 = btn2.title(for: .normal)
+                    matriceButton[pos1][pos2] = btn2
                     matriceButton[pos3][pos2] = btn
+                    btn2.setTitle(titolo1, for: .normal)
+                    btn.setTitle(titolo2, for: .normal)
                 }
             }
         }
@@ -161,15 +182,25 @@ class ViewController: UIViewController {
             {
                 let pos3=pos2+1;
                 let btn = matriceButton[pos1][pos2]
-                matriceButton[pos1][pos2] = matriceButton[pos2][pos3];
-                matriceButton[pos2][pos3] = btn
+                let btn2 = matriceButton[pos1][pos3]
+                let titolo1 = btn.title(for: .normal)
+                let titolo2 = btn2.title(for: .normal)
+                matriceButton[pos1][pos2] = btn2
+                matriceButton[pos1][pos3] = btn
+                btn2.setTitle(titolo1, for: .normal)
+                btn.setTitle(titolo2, for: .normal)
             }
             else if(pos2==3)
             {
                 let pos3=pos2-1;
                 let btn = matriceButton[pos1][pos2]
-                matriceButton[pos1][pos2] = matriceButton[pos2][pos3];
-                matriceButton[pos2][pos3] = btn
+                let btn2 = matriceButton[pos1][pos3]
+                let titolo1 = btn.title(for: .normal)
+                let titolo2 = btn2.title(for: .normal)
+                matriceButton[pos1][pos2] = btn2
+                matriceButton[pos1][pos3] = btn
+                btn2.setTitle(titolo1, for: .normal)
+                btn.setTitle(titolo2, for: .normal)
             }
             else
             {
@@ -177,17 +208,28 @@ class ViewController: UIViewController {
                 {
                     let pos3=pos2+1;
                     let btn = matriceButton[pos1][pos2]
-                    matriceButton[pos1][pos2] = matriceButton[pos2][pos3];
-                    matriceButton[pos2][pos3] = btn
+                    let btn2 = matriceButton[pos1][pos3]
+                    let titolo1 = btn.title(for: .normal)
+                    let titolo2 = btn2.title(for: .normal)
+                    matriceButton[pos1][pos2] = btn2
+                    matriceButton[pos1][pos3] = btn
+                    btn2.setTitle(titolo1, for: .normal)
+                    btn.setTitle(titolo2, for: .normal)
                 }
                 else
                 {
                     let pos3=pos2-1;
                     let btn = matriceButton[pos1][pos2]
-                    matriceButton[pos1][pos2] = matriceButton[pos2][pos3];
-                    matriceButton[pos2][pos3] = btn
+                    let btn2 = matriceButton[pos1][pos3]
+                    let titolo1 = btn.title(for: .normal)
+                    let titolo2 = btn2.title(for: .normal)
+                    matriceButton[pos1][pos2] = btn2
+                    matriceButton[pos1][pos3] = btn
+                    btn2.setTitle(titolo1, for: .normal)
+                    btn.setTitle(titolo2, for: .normal)
                 }
             }
+            Position()
         }
     }
     
@@ -207,18 +249,78 @@ class ViewController: UIViewController {
         return Coordinate
     }
     
+    
+    func ButtonPos1(Btn : UIButton) -> [Int]
+    {
+        var titolo = Btn.title(for: .normal)
+        var Coordinate: [Int] = [0,0]
+        for pos1 in 0...3
+        {
+            for pos2 in 0...3
+            {
+                if(matriceButtonOrdinata[pos1][pos2].title(for: .normal)==titolo)
+                {
+                    Coordinate = [pos1,pos2]
+                }
+            }
+        }
+        return Coordinate
+    }
+    
+    func ButtonPos2() -> [Int]
+    {
+        var titolo = "16"
+        var Coordinate: [Int] = [0,0]
+        for pos1 in 0...3
+        {
+            for pos2 in 0...3
+            {
+                if(matriceButtonOrdinata[pos1][pos2].title(for: .normal)==titolo)
+                {
+                    Coordinate = [pos1,pos2]
+                }
+            }
+        }
+        return Coordinate
+    }
+    
+    func Position()
+    {
+        var  f = matriceButton[0][0].title(for: .normal)
+        var  g = matriceButton[0][1].title(for: .normal)
+        var  h = matriceButton[0][2].title(for: .normal)
+        var  q = matriceButton[0][3].title(for: .normal)
+        var  w = matriceButton[1][0].title(for: .normal)
+        var  e = matriceButton[1][1].title(for: .normal)
+        var  r = matriceButton[1][2].title(for: .normal)
+        var  t = matriceButton[1][3].title(for: .normal)
+        var  y = matriceButton[2][0].title(for: .normal)
+        var  u = matriceButton[2][1].title(for: .normal)
+        var  i = matriceButton[2][2].title(for: .normal)
+        var  o = matriceButton[2][3].title(for: .normal)
+        var  p = matriceButton[3][0].title(for: .normal)
+        var  l = matriceButton[3][1].title(for: .normal)
+        var  k = matriceButton[3][2].title(for: .normal)
+        var  j = matriceButton[3][3].title(for: .normal)
+    }
+    
+    
     func ButtonAreClose(Btn:UIButton) -> Bool //restituisce true se il bottone in input è adiacente al bottonevuoto(Btn16)
     {
-    var Next = false;
-    if((ButtonPos(Btn: Btn)[0]==ButtonPos(Btn: Btn16)[0]) && (ButtonPos(Btn: Btn)[1]==ButtonPos(Btn: Btn16)[1]+1 || ButtonPos(Btn: Btn)[1]==ButtonPos(Btn: Btn16)[1]-1))
+        var BtnX = ButtonPos1(Btn: Btn)[0]
+        var BtnY = ButtonPos1(Btn: Btn)[1]
+        var EmptyX = ButtonPos2()[0]
+        var EmptyY = ButtonPos2()[1]
+        Position()
+    if(BtnX==EmptyX && (BtnY==EmptyY+1 || BtnY==EmptyY-1))
     {
-    Next = true
+        return true
     }
-    if((ButtonPos(Btn: Btn)[1]==ButtonPos(Btn: Btn16)[1]) && (ButtonPos(Btn: Btn)[0]==ButtonPos(Btn: Btn16)[0]+1 || ButtonPos(Btn: Btn)[0]==ButtonPos(Btn: Btn16)[0]-1))
+    if(BtnY==EmptyY && (BtnX==EmptyX+1 || BtnX==EmptyX-1))
     {
-    Next = true
+        return true
     }
-    return Next
+    return false
 
 
 
