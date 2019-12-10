@@ -97,15 +97,15 @@ class ViewController: UIViewController {
     
     func buttonClicked(Btn: UIButton)
     {
-        var btnX = ButtonPos1(Btn: Btn)[0]
-        var btnY = ButtonPos1(Btn: Btn)[1]
-        var EmptyX = ButtonPos2()[0]
-        var EmptyY = ButtonPos2()[1]
-        var BtnEmpty = matriceButton[EmptyX][EmptyY]
-        var titoloSaved = Btn.title(for: .normal)
+        let btnX = ButtonPos1(Btn: Btn)[0]
+        let btnY = ButtonPos1(Btn: Btn)[1]
+        let EmptyX = ButtonPos2()[0]
+        let EmptyY = ButtonPos2()[1]
+        let BtnEmpty = matriceButtonOrdinata[EmptyX][EmptyY]
+        let titoloSaved = Btn.title(for: .normal)
         BtnEmpty.setTitle(Btn.title(for: .normal), for: .normal
         )
-        Btn.setTitle(titoloSaved, for: .normal)
+        Btn.setTitle("", for: .normal)
         matriceButton[EmptyX][EmptyY] = Btn
         matriceButton[btnX][btnY] = BtnEmpty
     }
@@ -252,7 +252,7 @@ class ViewController: UIViewController {
     
     func ButtonPos1(Btn : UIButton) -> [Int]
     {
-        var titolo = Btn.title(for: .normal)
+        let titolo = Btn.title(for: .normal)
         var Coordinate: [Int] = [0,0]
         for pos1 in 0...3
         {
@@ -269,13 +269,13 @@ class ViewController: UIViewController {
     
     func ButtonPos2() -> [Int]
     {
-        var titolo = "16"
         var Coordinate: [Int] = [0,0]
         for pos1 in 0...3
         {
             for pos2 in 0...3
             {
-                if(matriceButtonOrdinata[pos1][pos2].title(for: .normal)==titolo)
+                var tit = matriceButtonOrdinata[pos1][pos2].title(for: .normal)
+                if(tit?.isEmpty ?? true)
                 {
                     Coordinate = [pos1,pos2]
                 }
@@ -286,31 +286,31 @@ class ViewController: UIViewController {
     
     func Position()
     {
-        var  f = matriceButton[0][0].title(for: .normal)
-        var  g = matriceButton[0][1].title(for: .normal)
-        var  h = matriceButton[0][2].title(for: .normal)
-        var  q = matriceButton[0][3].title(for: .normal)
-        var  w = matriceButton[1][0].title(for: .normal)
-        var  e = matriceButton[1][1].title(for: .normal)
-        var  r = matriceButton[1][2].title(for: .normal)
-        var  t = matriceButton[1][3].title(for: .normal)
-        var  y = matriceButton[2][0].title(for: .normal)
-        var  u = matriceButton[2][1].title(for: .normal)
-        var  i = matriceButton[2][2].title(for: .normal)
-        var  o = matriceButton[2][3].title(for: .normal)
-        var  p = matriceButton[3][0].title(for: .normal)
-        var  l = matriceButton[3][1].title(for: .normal)
-        var  k = matriceButton[3][2].title(for: .normal)
-        var  j = matriceButton[3][3].title(for: .normal)
+        let  f = matriceButton[0][0].title(for: .normal)
+        let  g = matriceButton[0][1].title(for: .normal)
+        let  h = matriceButton[0][2].title(for: .normal)
+        let  q = matriceButton[0][3].title(for: .normal)
+        let  w = matriceButton[1][0].title(for: .normal)
+        let  e = matriceButton[1][1].title(for: .normal)
+        let  r = matriceButton[1][2].title(for: .normal)
+        let  t = matriceButton[1][3].title(for: .normal)
+        let  y = matriceButton[2][0].title(for: .normal)
+        let  u = matriceButton[2][1].title(for: .normal)
+        let  i = matriceButton[2][2].title(for: .normal)
+        let  o = matriceButton[2][3].title(for: .normal)
+        let  p = matriceButton[3][0].title(for: .normal)
+        let  l = matriceButton[3][1].title(for: .normal)
+        let  k = matriceButton[3][2].title(for: .normal)
+        let  j = matriceButton[3][3].title(for: .normal)
     }
     
     
     func ButtonAreClose(Btn:UIButton) -> Bool //restituisce true se il bottone in input è adiacente al bottonevuoto(Btn16)
     {
-        var BtnX = ButtonPos1(Btn: Btn)[0]
-        var BtnY = ButtonPos1(Btn: Btn)[1]
-        var EmptyX = ButtonPos2()[0]
-        var EmptyY = ButtonPos2()[1]
+        let BtnX = ButtonPos1(Btn: Btn)[0]
+        let BtnY = ButtonPos1(Btn: Btn)[1]
+        let EmptyX = ButtonPos2()[0]
+        let EmptyY = ButtonPos2()[1]
         Position()
     if(BtnX==EmptyX && (BtnY==EmptyY+1 || BtnY==EmptyY-1))
     {
