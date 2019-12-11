@@ -97,6 +97,7 @@ class ViewController: UIViewController {
     
     func buttonClicked(Btn: UIButton)
     {
+<<<<<<< Updated upstream
         let btnX = ButtonPos1(Btn: Btn)[0]
         let btnY = ButtonPos1(Btn: Btn)[1]
         let EmptyX = ButtonPos2()[0]
@@ -108,6 +109,19 @@ class ViewController: UIViewController {
         Btn.setTitle("", for: .normal)
         matriceButton[EmptyX][EmptyY] = Btn
         matriceButton[btnX][btnY] = BtnEmpty
+=======
+        let BtnPressedPos = ButtonPos(Btn: Btn);
+        let BtnEmptyPos = ButtonPos(Btn: Btn16);
+        let BtnPressedPos1  = BtnPressedPos[0]
+        let BtnPressedPos2 = BtnPressedPos[1]
+        let BtnEmptyPos1 = BtnEmptyPos[0]
+        let BtnEmptyPos2 = BtnEmptyPos[1]
+        let BtnEmpty = matriceButton[BtnEmptyPos1][BtnEmptyPos2]
+        BtnEmpty.setTitle(Btn.title(for: .normal), for: .normal)
+        Btn.setTitle("", for: .normal)
+        matriceButton[BtnPressedPos1][BtnPressedPos2] = BtnEmpty;
+        matriceButton[BtnEmptyPos1][BtnEmptyPos2] = Btn
+>>>>>>> Stashed changes
     }
     
     func messUp()
@@ -307,16 +321,29 @@ class ViewController: UIViewController {
     
     func ButtonAreClose(Btn:UIButton) -> Bool //restituisce true se il bottone in input è adiacente al bottonevuoto(Btn16)
     {
+<<<<<<< Updated upstream
         let BtnX = ButtonPos1(Btn: Btn)[0]
         let BtnY = ButtonPos1(Btn: Btn)[1]
         let EmptyX = ButtonPos2()[0]
         let EmptyY = ButtonPos2()[1]
         Position()
     if(BtnX==EmptyX && (BtnY==EmptyY+1 || BtnY==EmptyY-1))
+=======
+	    var Next = false;
+        let x1=ButtonPos(Btn: Btn)[0]
+        let y1=ButtonPos(Btn: Btn)[1]
+        let x2=ButtonPos(Btn: Btn16)[0]
+        let y2=ButtonPos(Btn: Btn16)[1]
+    if(x1==x2)
+>>>>>>> Stashed changes
     {
         return true
     }
+<<<<<<< Updated upstream
     if(BtnY==EmptyY && (BtnX==EmptyX+1 || BtnX==EmptyX-1))
+=======
+    if(y1==y2)
+>>>>>>> Stashed changes
     {
         return true
     }
