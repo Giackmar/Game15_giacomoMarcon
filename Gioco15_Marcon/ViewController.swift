@@ -28,6 +28,7 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
     @IBOutlet weak var Btn15: UIButton!
     @IBOutlet weak var Btn16: UIButton!
     @IBOutlet weak var Picker1: UIPickerView!
+    @IBOutlet weak var TabellaVitoria: UILabel!
     
     
     var matriceButton: [[UIButton]] = [[]];
@@ -43,6 +44,24 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         matriceButtonOrdinata = matriceButton;
         Picker1.dataSource = self
         Picker1.delegate = self
+        TabellaVitoria.isHidden = true;
+        
+        Btn1.isEnabled = false;
+        Btn2.isEnabled = false;
+        Btn3.isEnabled = false;
+        Btn4.isEnabled = false;
+        Btn5.isEnabled = false;
+        Btn6.isEnabled = false;
+        Btn7.isEnabled = false;
+        Btn8.isEnabled = false;
+        Btn9.isEnabled = false;
+        Btn10.isEnabled = false;
+        Btn11.isEnabled = false;
+        Btn12.isEnabled = false;
+        Btn13.isEnabled = false;
+        Btn14.isEnabled = false;
+        Btn15.isEnabled = false;
+        Btn16.isEnabled = false;
     }
     
     // Numero di colonne della PickerView (in questo caso una)
@@ -80,11 +99,11 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         }
         if(difficoltàSelezionata=="difficile")
         {
-            return 5
+            return 10
         }
         if(difficoltàSelezionata=="impossibile")
         {
-            return 15
+            return 100
         }
         return 1
     }
@@ -98,11 +117,48 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         }
         if(Victory())
         {
-            matriceButtonOrdinata[0][0].setTitle("win", for: .normal)
+            TabellaVitoria.isHidden = false;
+            TabellaVitoria.text = "HAI VINTO!"
+            Btn1.isEnabled = false;
+            Btn2.isEnabled = false;
+            Btn3.isEnabled = false;
+            Btn4.isEnabled = false;
+            Btn5.isEnabled = false;
+            Btn6.isEnabled = false;
+            Btn7.isEnabled = false;
+            Btn8.isEnabled = false;
+            Btn9.isEnabled = false;
+            Btn10.isEnabled = false;
+            Btn11.isEnabled = false;
+            Btn12.isEnabled = false;
+            Btn13.isEnabled = false;
+            Btn14.isEnabled = false;
+            Btn15.isEnabled = false;
+            Btn16.isEnabled = false;
         }
     }
     @IBAction func buttonCreaPartita(_ sender: UIButton) {
+        
         viewDidLoad();
+        
+        TabellaVitoria.isHidden = true
+        Btn1.isEnabled = true;
+        Btn2.isEnabled = true;
+        Btn3.isEnabled = true;
+        Btn4.isEnabled = true;
+        Btn5.isEnabled = true;
+        Btn6.isEnabled = true;
+        Btn7.isEnabled = true;
+        Btn8.isEnabled = true;
+        Btn9.isEnabled = true;
+        Btn10.isEnabled = true;
+        Btn11.isEnabled = true;
+        Btn12.isEnabled = true;
+        Btn13.isEnabled = true;
+        Btn14.isEnabled = true;
+        Btn15.isEnabled = true;
+        Btn16.isEnabled = true;
+        
         for n1 in 0...3
         {
             for n2 in 0...3

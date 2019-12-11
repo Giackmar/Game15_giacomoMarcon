@@ -147,15 +147,15 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="05f-av-fpW">
-                                <rect key="frame" x="221" y="493" width="82" height="30"/>
+                                <rect key="frame" x="111" y="493" width="192" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Crea Partita"/>
                                 <connections>
                                     <action selector="buttonCreaPartita:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f6E-a8-vts"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oVS-hA-vN0">
-                                <rect key="frame" x="111" y="614" width="42" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oVS-hA-vN0">
+                                <rect key="frame" x="111" y="588" width="192" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -183,11 +183,12 @@
                         <outlet property="Btn8" destination="x8X-Gi-3Ef" id="oE7-CK-qOd"/>
                         <outlet property="Btn9" destination="y99-4V-MlZ" id="yNx-y9-7vn"/>
                         <outlet property="Picker1" destination="2tO-fJ-pgc" id="Gxm-SP-cHC"/>
+                        <outlet property="TabellaVitoria" destination="oVS-hA-vN0" id="AX2-h8-bdc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="132" y="139"/>
+            <point key="canvasLocation" x="131.8840579710145" y="138.61607142857142"/>
         </scene>
     </scenes>
 </document>
