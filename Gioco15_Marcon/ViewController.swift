@@ -8,7 +8,8 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource{
+    
     
     @IBOutlet weak var Btn1: UIButton!
     @IBOutlet weak var Btn2: UIButton!
@@ -26,19 +27,68 @@ class ViewController: UIViewController {
     @IBOutlet weak var Btn14: UIButton!
     @IBOutlet weak var Btn15: UIButton!
     @IBOutlet weak var Btn16: UIButton!
-    @IBOutlet weak var PckViewLivello: UIPickerView!
+    @IBOutlet weak var Picker1: UIPickerView!
+    
     
     var matriceButton: [[UIButton]] = [[]];
     var matriceButtonOrdinata: [[UIButton]] = [[]];
-    var numberMessUp = 1;// varia in base alla difficoltà(vedi metodo creaPartita)
+    var numberMessUp = 5;// varia in base alla difficoltà(vedi metodo creaPartita)
+    let difficoltà = ["facile","medio","difficile","impossibile"]
+    var difficoltàSelezionata = "";
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-            matriceButton = [[Btn1,Btn2,Btn3,Btn4],[Btn5,Btn6,Btn7,Btn8],[Btn9,Btn10,Btn11,Btn12],[Btn13,Btn14,Btn15,Btn16]];
-            
-            matriceButtonOrdinata = matriceButton;
+        matriceButton = [[Btn1,Btn2,Btn3,Btn4],[Btn5,Btn6,Btn7,Btn8],[Btn9,Btn10,Btn11,Btn12],[Btn13,Btn14,Btn15,Btn16]];
+        matriceButtonOrdinata = matriceButton;
+        Picker1.dataSource = self
+        Picker1.delegate = self
     }
     
+    // Numero di colonne della PickerView (in questo caso una)
+       func numberOfComponents(in listaDifficoltà: UIPickerView) -> Int {
+           return 1
+       }
+       
+       
+       // Inserisce il contenuto dell'array alla PickerView
+       func pickerView(_ listaDifficoltà: UIPickerView, titleForRow row : Int, forComponent component: Int) -> String? {
+           return difficoltà[row]
+       }
+    
+       
+       // Numero di righe della PickerView
+       func pickerView(_ listaDifficoltà: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+           return difficoltà.count
+       }
+       
+       // Assegna ad una variabile la difficoltà selezionata
+       func pickerView(_ listaDifficoltà: UIPickerView, didSelectRow row: Int, inComponent component: Int){
+           difficoltàSelezionata = difficoltà[row]
+       }
+    
+    //ritorna quantità
+    func difficoltàGioco()->Int
+    {
+        if(difficoltàSelezionata=="facile")
+        {
+            return 1
+        }
+        if(difficoltàSelezionata=="medio")
+        {
+            return 2
+        }
+        if(difficoltàSelezionata=="difficile")
+        {
+            return 5
+        }
+        if(difficoltàSelezionata=="impossibile")
+        {
+            return 15
+        }
+        return 1
+    }
+       
     
     @IBAction func buttonPressed(_ sender : UIButton) {
         Position()
@@ -46,19 +96,30 @@ class ViewController: UIViewController {
         {
             buttonClicked(Btn: sender) //sposto il bottone cliccato nella posizione adiacente libera
         }
-    }
-    @IBAction func buttonCreaPartita(_ sender: UIButton) { //se cliccato mischia le celle (numberMessUp volte)
-        //facile-->1*messUp    medio-->2*messUp   difficile-->5*messuUp     impossibile-->10*messUp
-        messUp();
-        /*var num = 1
-        for n in 0...3
+        if(Victory())
         {
-            for n1 in 0...3
+            matriceButtonOrdinata[0][0].setTitle("win", for: .normal)
+        }
+    }
+    @IBAction func buttonCreaPartita(_ sender: UIButton) {
+        viewDidLoad();
+        for n1 in 0...3
+        {
+            for n2 in 0...3
             {
-               Caricobtn(Btn: matriceButtonOrdinata[n][n1], num: num)
-               num += 1
+                var titolo = (String)(n2+(n1*4)+1)
+                if(n1==3 && n2==3)
+                {
+                    titolo = ""
+                }
+                matriceButtonOrdinata[n1][n2].setTitle(titolo, for: .normal)
             }
-        }*/
+        }
+        let n = difficoltàGioco()
+        for _ in 0...n
+        {
+            messUp();
+        }
     }
     
     func Caricobtn(Btn:UIButton, num:Int) // in base a dove si trova il bottone gli assegno un numero
@@ -85,11 +146,19 @@ class ViewController: UIViewController {
     func Victory() -> Bool
     {
         var Win = true;
-        for pos in 0...15
+        for n1 in 0...3
         {
-            if(matriceButton[pos] != matriceButtonOrdinata[pos])
+            for n2 in 0...3
             {
-                Win = false;
+                var titolo = (String)(n2+(n1*4)+1)
+                if(n1==3 && n2==3)
+                {
+                    titolo = ""
+                }
+                if(matriceButtonOrdinata[n1][n2].title(for: .normal) != titolo)
+                {
+                    Win = false;
+                }
             }
         }
         return Win
@@ -97,31 +166,16 @@ class ViewController: UIViewController {
     
     func buttonClicked(Btn: UIButton)
     {
-<<<<<<< Updated upstream
         let btnX = ButtonPos1(Btn: Btn)[0]
         let btnY = ButtonPos1(Btn: Btn)[1]
         let EmptyX = ButtonPos2()[0]
         let EmptyY = ButtonPos2()[1]
         let BtnEmpty = matriceButtonOrdinata[EmptyX][EmptyY]
-        let titoloSaved = Btn.title(for: .normal)
         BtnEmpty.setTitle(Btn.title(for: .normal), for: .normal
         )
         Btn.setTitle("", for: .normal)
         matriceButton[EmptyX][EmptyY] = Btn
         matriceButton[btnX][btnY] = BtnEmpty
-=======
-        let BtnPressedPos = ButtonPos(Btn: Btn);
-        let BtnEmptyPos = ButtonPos(Btn: Btn16);
-        let BtnPressedPos1  = BtnPressedPos[0]
-        let BtnPressedPos2 = BtnPressedPos[1]
-        let BtnEmptyPos1 = BtnEmptyPos[0]
-        let BtnEmptyPos2 = BtnEmptyPos[1]
-        let BtnEmpty = matriceButton[BtnEmptyPos1][BtnEmptyPos2]
-        BtnEmpty.setTitle(Btn.title(for: .normal), for: .normal)
-        Btn.setTitle("", for: .normal)
-        matriceButton[BtnPressedPos1][BtnPressedPos2] = BtnEmpty;
-        matriceButton[BtnEmptyPos1][BtnEmptyPos2] = Btn
->>>>>>> Stashed changes
     }
     
     func messUp()
@@ -288,7 +342,7 @@ class ViewController: UIViewController {
         {
             for pos2 in 0...3
             {
-                var tit = matriceButtonOrdinata[pos1][pos2].title(for: .normal)
+                let tit = matriceButtonOrdinata[pos1][pos2].title(for: .normal)
                 if(tit?.isEmpty ?? true)
                 {
                     Coordinate = [pos1,pos2]
@@ -321,29 +375,16 @@ class ViewController: UIViewController {
     
     func ButtonAreClose(Btn:UIButton) -> Bool //restituisce true se il bottone in input è adiacente al bottonevuoto(Btn16)
     {
-<<<<<<< Updated upstream
         let BtnX = ButtonPos1(Btn: Btn)[0]
         let BtnY = ButtonPos1(Btn: Btn)[1]
         let EmptyX = ButtonPos2()[0]
         let EmptyY = ButtonPos2()[1]
         Position()
     if(BtnX==EmptyX && (BtnY==EmptyY+1 || BtnY==EmptyY-1))
-=======
-	    var Next = false;
-        let x1=ButtonPos(Btn: Btn)[0]
-        let y1=ButtonPos(Btn: Btn)[1]
-        let x2=ButtonPos(Btn: Btn16)[0]
-        let y2=ButtonPos(Btn: Btn16)[1]
-    if(x1==x2)
->>>>>>> Stashed changes
     {
         return true
     }
-<<<<<<< Updated upstream
     if(BtnY==EmptyY && (BtnX==EmptyX+1 || BtnX==EmptyX-1))
-=======
-    if(y1==y2)
->>>>>>> Stashed changes
     {
         return true
     }
