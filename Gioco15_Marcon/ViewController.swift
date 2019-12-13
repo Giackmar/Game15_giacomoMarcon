@@ -97,7 +97,7 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
     {
         if(difficoltàSelezionata=="facile")
         {
-            return 1
+            return 0
         }
         if(difficoltàSelezionata=="medio")
         {
@@ -255,9 +255,9 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
     
     func messUp()//effettua 5 spostamenti di celle in fase di scombinamento
     {
-        for _ in 1...10
+        for _ in 1...numberMessUp
         {
-            let pos = ButtonPos2()//attenzione qui utilizzavo buttonPos che ho commentato!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            let pos = ButtonPos2()
             invertitore(pos1: pos[0],pos2: pos[1])
         }
     }
@@ -416,7 +416,7 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     
-    /*func ButtonPos(Btn : UIButton) -> [Int]
+    func ButtonPos(Btn : UIButton) -> [Int]
     {
         var Coordinate: [Int] = [0,0]
         for pos1 in 0...3
@@ -430,7 +430,7 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
             }
         }
         return Coordinate
-    }*/
+    }
     
     /*func Caricobtn(Btn:UIButton, num:Int) //in base a dove si trova il bottone gli assegno un numero
     {
