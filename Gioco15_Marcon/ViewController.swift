@@ -114,12 +114,13 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         return 1
     }
        
+    
     //quando premo un dei bottoni che rappresenta le celle entro in questo metodo
     @IBAction func buttonPressed(_ sender : UIButton) 
     {
         if(ButtonAreClose(Btn: sender))//se il bottone cliccato(sender) è adiacente alla posizione vuota entro nell'if
         {
-            buttonClicked(Btn: sender)//sposto il bottone cliccato nella posizione adiacente libera
+            buttonMove(Btn: sender)//sposto il bottone cliccato nella posizione adiacente libera
         }
         if(Victory())//se tutti le celle sono nell'ordine giusto entro nell'if perchè l'utente ha vinto
         {
@@ -144,6 +145,9 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
             Btn16.isEnabled = false;
         }
     }
+    
+    
+    
     @IBAction func buttonCreaPartita(_ sender: UIButton) 
     {
         viewDidLoad();//chiamando il metodo  viewDidLoad resetto le matrici
@@ -188,26 +192,43 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         }
     }
     
-    /*func Caricobtn(Btn:UIButton, num:Int) //in base a dove si trova il bottone gli assegno un numero
+    
+    
+    func ButtonAreClose(Btn:UIButton) -> Bool //restituisce true se il bottone in input è adiacente al bottone vuoto
     {
-        for n in 0...3
+        let BtnX = ButtonPos1(Btn: Btn)[0]
+        let BtnY = ButtonPos1(Btn: Btn)[1]
+        let EmptyX = ButtonPos2()[0]
+        let EmptyY = ButtonPos2()[1]
+        
+        if(BtnX==EmptyX && (BtnY==EmptyY+1 || BtnY==EmptyY-1))
         {
-            for n1 in 0...3
-            {
-                if(Btn==matriceButton[n][n1])
-                {
-                    if(num==16)
-                    {
-                        matriceButtonOrdinata[n][n1].setTitle(String(), for: .normal)//devo mettere niente perchè è ls posizione vuota
-                    }
-                    else
-                    {
-                       matriceButtonOrdinata[n][n1].setTitle(String(num), for: .normal)
-                    }
-                }
-            }
+             return true
         }
-    }*/
+        
+        if(BtnY==EmptyY && (BtnX==EmptyX+1 || BtnX==EmptyX-1))
+        {
+            return true
+        }
+        return false
+    }
+    
+    
+    
+    func buttonMove(Btn: UIButton)//sposta il bottone passato in input nella posizione vuota e viceversa
+    {
+        let btnX = ButtonPos1(Btn: Btn)[0]
+        let btnY = ButtonPos1(Btn: Btn)[1]
+        let EmptyX = ButtonPos2()[0]
+        let EmptyY = ButtonPos2()[1]
+        let BtnEmpty = matriceButtonOrdinata[EmptyX][EmptyY]
+        BtnEmpty.setTitle(Btn.title(for: .normal), for: .normal)
+        Btn.setTitle("", for: .normal)
+        matriceButton[EmptyX][EmptyY] = Btn
+        matriceButton[btnX][btnY] = BtnEmpty
+    }
+    
+    
     
     func Victory() -> Bool//controlla se tutte le celle sono in ordine (se l'utente ha vinto ritorna true)
     {
@@ -230,28 +251,18 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         return Win
     }
     
-    func buttonClicked(Btn: UIButton)//sposta il bottone passato in input nella posizione vuota e viceversa
-    {
-        let btnX = ButtonPos1(Btn: Btn)[0]
-        let btnY = ButtonPos1(Btn: Btn)[1]
-        let EmptyX = ButtonPos2()[0]
-        let EmptyY = ButtonPos2()[1]
-        let BtnEmpty = matriceButtonOrdinata[EmptyX][EmptyY]
-        BtnEmpty.setTitle(Btn.title(for: .normal), for: .normal
-        )
-        Btn.setTitle("", for: .normal)
-        matriceButton[EmptyX][EmptyY] = Btn
-        matriceButton[btnX][btnY] = BtnEmpty
-    }
+    
     
     func messUp()//effettua 5 spostamenti di celle in fase di scombinamento
     {
         for _ in 1...10
         {
-            let pos = ButtonPos(Btn: Btn16)
+            let pos = ButtonPos2()//attenzione qui utilizzavo buttonPos che ho commentato!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             invertitore(pos1: pos[0],pos2: pos[1])
         }
     }
+    
+    
     
     func invertitore( pos1:Int, pos2:Int)//sposta randomicamente un bottone adiacente alla posizione vuota e viceversa
     { //genero un bool random ( vero o falso )
@@ -365,21 +376,6 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         }
     }
     
-    /*func ButtonPos(Btn : UIButton) -> [Int]
-    {
-        var Coordinate: [Int] = [0,0]
-        for pos1 in 0...3
-        {
-            for pos2 in 0...3
-            {
-                if(matriceButton[pos1][pos2]==Btn)
-                {
-                    Coordinate = [pos1,pos2]
-                }
-            }
-        }
-        return Coordinate
-    }*/
     
     
     func ButtonPos1(Btn : UIButton) -> [Int]//restuisce la posizione del bottone passato in input (x e y nella matrice)
@@ -399,6 +395,9 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         return Coordinate
     }
     
+    
+    
+    
     func ButtonPos2() -> [Int]//restuisce la posizione del bottone vuoto
     {
         var Coordinate: [Int] = [0,0]
@@ -415,20 +414,42 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         }
         return Coordinate
     }
-    func ButtonAreClose(Btn:UIButton) -> Bool //restituisce true se il bottone in input è adiacente al bottone vuoto
+    
+    
+    /*func ButtonPos(Btn : UIButton) -> [Int]
     {
-        let BtnX = ButtonPos1(Btn: Btn)[0]
-        let BtnY = ButtonPos1(Btn: Btn)[1]
-        let EmptyX = ButtonPos2()[0]
-        let EmptyY = ButtonPos2()[1]
-    if(BtnX==EmptyX && (BtnY==EmptyY+1 || BtnY==EmptyY-1))
+        var Coordinate: [Int] = [0,0]
+        for pos1 in 0...3
+        {
+            for pos2 in 0...3
+            {
+                if(matriceButton[pos1][pos2]==Btn)
+                {
+                    Coordinate = [pos1,pos2]
+                }
+            }
+        }
+        return Coordinate
+    }*/
+    
+    /*func Caricobtn(Btn:UIButton, num:Int) //in base a dove si trova il bottone gli assegno un numero
     {
-        return true
-    }
-    if(BtnY==EmptyY && (BtnX==EmptyX+1 || BtnX==EmptyX-1))
-    {
-        return true
-    }
-    return false
-    }
+        for n in 0...3
+        {
+            for n1 in 0...3
+            {
+                if(Btn==matriceButton[n][n1])
+                {
+                    if(num==16)
+                    {
+                        matriceButtonOrdinata[n][n1].setTitle(String(), for: .normal)//devo mettere niente perchè è ls posizione vuota
+                    }
+                    else
+                    {
+                       matriceButtonOrdinata[n][n1].setTitle(String(num), for: .normal)
+                    }
+                }
+            }
+        }
+    }*/
 }
