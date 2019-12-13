@@ -31,21 +31,23 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
     @IBOutlet weak var TabellaVitoria: UILabel!
     
     
-    var matriceButton: [[UIButton]] = [[]];
-    var matriceButtonOrdinata: [[UIButton]] = [[]];
-    var numberMessUp = 5;// varia in base alla difficoltà(vedi metodo creaPartita)
-    let difficoltà = ["facile","medio","difficile","impossibile"]
-    var difficoltàSelezionata = "";
+    var matriceButton: [[UIButton]] = [[]]; //matrice di button che scombino
+    var matriceButtonOrdinata: [[UIButton]] = [[]]; //matrice di button ordinata
+    var numberMessUp = 5; //numero di volte che scombino in 1 giro (facile=2*numberMessUp  medio=3*numberMessUp  ecc..)
+    let difficoltà = ["facile","medio","difficile","impossibile"] //array di difficoltà tra cui scegliere
+    var difficoltàSelezionata = ""; //variabile contenente la stringa corrispondente alla difficoltà selezionata
 
     
-    override func viewDidLoad() {
+    override func viewDidLoad() 
+    {
         super.viewDidLoad()
         matriceButton = [[Btn1,Btn2,Btn3,Btn4],[Btn5,Btn6,Btn7,Btn8],[Btn9,Btn10,Btn11,Btn12],[Btn13,Btn14,Btn15,Btn16]];
-        matriceButtonOrdinata = matriceButton;
+        matriceButtonOrdinata = matriceButton; //"riempio" le matrici di button
         Picker1.dataSource = self
         Picker1.delegate = self
-        TabellaVitoria.isHidden = true;
         
+        //nascondo la tabella vittoria mentre abilito i button
+        TabellaVitoria.isHidden = true; 
         Btn1.isEnabled = false;
         Btn2.isEnabled = false;
         Btn3.isEnabled = false;
@@ -64,29 +66,33 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         Btn16.isEnabled = false;
     }
     
-    // Numero di colonne della PickerView (in questo caso una)
+    
+    
+       //numero di colonne della pickerView 
        func numberOfComponents(in listaDifficoltà: UIPickerView) -> Int {
            return 1
        }
        
-       
-       // Inserisce il contenuto dell'array alla PickerView
-       func pickerView(_ listaDifficoltà: UIPickerView, titleForRow row : Int, forComponent component: Int) -> String? {
+       //numero di righe della pickerView 
+       func pickerView(_ listaDifficoltà: UIPickerView, numberOfRowsInComponent component: Int) -> Int 
+       {
+           return difficoltà.count
+       }
+    
+       //riempie la pickerView con le difficoltà (array)
+       func pickerView(_ listaDifficoltà: UIPickerView, titleForRow row : Int, forComponent component: Int) -> String? 
+       {
            return difficoltà[row]
        }
     
-       
-       // Numero di righe della PickerView
-       func pickerView(_ listaDifficoltà: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-           return difficoltà.count
-       }
-       
-       // Assegna ad una variabile la difficoltà selezionata
-       func pickerView(_ listaDifficoltà: UIPickerView, didSelectRow row: Int, inComponent component: Int){
+       //assegno a difficoltàSelezionata la difficoltà selezionata dall'utente
+       func pickerView(_ listaDifficoltà: UIPickerView, didSelectRow row: Int, inComponent component: Int)
+       {
            difficoltàSelezionata = difficoltà[row]
        }
     
-    //ritorna quantità
+    
+    //ritorna quantità di volte che devo mischiare le celle in base alla difficoltà selezionata
     func difficoltàGioco()->Int
     {
         if(difficoltàSelezionata=="facile")
@@ -108,15 +114,16 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         return 1
     }
        
-    
-    @IBAction func buttonPressed(_ sender : UIButton) {
-        Position()
-        if(ButtonAreClose(Btn: sender)) //se il bottone cliccato(sender) è adiacente alla posizione vuota entro nell'if
+    //quando premo un dei bottoni che rappresenta le celle entro in questo metodo
+    @IBAction func buttonPressed(_ sender : UIButton) 
+    {
+        if(ButtonAreClose(Btn: sender))//se il bottone cliccato(sender) è adiacente alla posizione vuota entro nell'if
         {
-            buttonClicked(Btn: sender) //sposto il bottone cliccato nella posizione adiacente libera
+            buttonClicked(Btn: sender)//sposto il bottone cliccato nella posizione adiacente libera
         }
-        if(Victory())
+        if(Victory())//se tutti le celle sono nell'ordine giusto entro nell'if perchè l'utente ha vinto
         {
+            //nascondo la tabellaVittoria e ci scrivo hai vinto inoltre disabilito tutti i bottoni
             TabellaVitoria.isHidden = false;
             TabellaVitoria.text = "HAI VINTO!"
             Btn1.isEnabled = false;
@@ -137,10 +144,11 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
             Btn16.isEnabled = false;
         }
     }
-    @IBAction func buttonCreaPartita(_ sender: UIButton) {
+    @IBAction func buttonCreaPartita(_ sender: UIButton) 
+    {
+        viewDidLoad();//chiamando il metodo  viewDidLoad resetto le matrici
         
-        viewDidLoad();
-        
+        //nascondo la tabellaVittoria e abilito tutti i bottoni "celle"
         TabellaVitoria.isHidden = true
         Btn1.isEnabled = true;
         Btn2.isEnabled = true;
@@ -159,6 +167,7 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         Btn15.isEnabled = true;
         Btn16.isEnabled = true;
         
+        //metto a tutti i titoli i nomi in ordine crescente
         for n1 in 0...3
         {
             for n2 in 0...3
@@ -171,14 +180,15 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
                 matriceButtonOrdinata[n1][n2].setTitle(titolo, for: .normal)
             }
         }
-        let n = difficoltàGioco()
-        for _ in 0...n
+        
+        let n = difficoltàGioco()//numero di volte che deve effettuare il mischiamento delle in base alla difficoltà selezionata
+        for _ in 0...n//mischio per n volte
         {
             messUp();
         }
     }
     
-    func Caricobtn(Btn:UIButton, num:Int) // in base a dove si trova il bottone gli assegno un numero
+    /*func Caricobtn(Btn:UIButton, num:Int) //in base a dove si trova il bottone gli assegno un numero
     {
         for n in 0...3
         {
@@ -197,9 +207,9 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
                 }
             }
         }
-    }
+    }*/
     
-    func Victory() -> Bool
+    func Victory() -> Bool//controlla se tutte le celle sono in ordine (se l'utente ha vinto ritorna true)
     {
         var Win = true;
         for n1 in 0...3
@@ -220,7 +230,7 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         return Win
     }
     
-    func buttonClicked(Btn: UIButton)
+    func buttonClicked(Btn: UIButton)//sposta il bottone passato in input nella posizione vuota e viceversa
     {
         let btnX = ButtonPos1(Btn: Btn)[0]
         let btnY = ButtonPos1(Btn: Btn)[1]
@@ -234,17 +244,16 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         matriceButton[btnX][btnY] = BtnEmpty
     }
     
-    func messUp()
+    func messUp()//effettua 5 spostamenti di celle in fase di scombinamento
     {
         for _ in 1...10
         {
             let pos = ButtonPos(Btn: Btn16)
             invertitore(pos1: pos[0],pos2: pos[1])
-            Position()
         }
     }
     
-    func invertitore( pos1:Int, pos2:Int)
+    func invertitore( pos1:Int, pos2:Int)//sposta randomicamente un bottone adiacente alla posizione vuota e viceversa
     { //genero un bool random ( vero o falso )
         if(Bool.random()) // trasformare tutti if in metodo che richiamo più volte
         {
@@ -353,11 +362,10 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
                     btn.setTitle(titolo2, for: .normal)
                 }
             }
-            Position()
         }
     }
     
-    func ButtonPos(Btn : UIButton) -> [Int]
+    /*func ButtonPos(Btn : UIButton) -> [Int]
     {
         var Coordinate: [Int] = [0,0]
         for pos1 in 0...3
@@ -371,10 +379,10 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
             }
         }
         return Coordinate
-    }
+    }*/
     
     
-    func ButtonPos1(Btn : UIButton) -> [Int]
+    func ButtonPos1(Btn : UIButton) -> [Int]//restuisce la posizione del bottone passato in input (x e y nella matrice)
     {
         let titolo = Btn.title(for: .normal)
         var Coordinate: [Int] = [0,0]
@@ -391,7 +399,7 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         return Coordinate
     }
     
-    func ButtonPos2() -> [Int]
+    func ButtonPos2() -> [Int]//restuisce la posizione del bottone vuoto
     {
         var Coordinate: [Int] = [0,0]
         for pos1 in 0...3
@@ -407,35 +415,12 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         }
         return Coordinate
     }
-    
-    func Position()
-    {
-        let  f = matriceButton[0][0].title(for: .normal)
-        let  g = matriceButton[0][1].title(for: .normal)
-        let  h = matriceButton[0][2].title(for: .normal)
-        let  q = matriceButton[0][3].title(for: .normal)
-        let  w = matriceButton[1][0].title(for: .normal)
-        let  e = matriceButton[1][1].title(for: .normal)
-        let  r = matriceButton[1][2].title(for: .normal)
-        let  t = matriceButton[1][3].title(for: .normal)
-        let  y = matriceButton[2][0].title(for: .normal)
-        let  u = matriceButton[2][1].title(for: .normal)
-        let  i = matriceButton[2][2].title(for: .normal)
-        let  o = matriceButton[2][3].title(for: .normal)
-        let  p = matriceButton[3][0].title(for: .normal)
-        let  l = matriceButton[3][1].title(for: .normal)
-        let  k = matriceButton[3][2].title(for: .normal)
-        let  j = matriceButton[3][3].title(for: .normal)
-    }
-    
-    
-    func ButtonAreClose(Btn:UIButton) -> Bool //restituisce true se il bottone in input è adiacente al bottonevuoto(Btn16)
+    func ButtonAreClose(Btn:UIButton) -> Bool //restituisce true se il bottone in input è adiacente al bottone vuoto
     {
         let BtnX = ButtonPos1(Btn: Btn)[0]
         let BtnY = ButtonPos1(Btn: Btn)[1]
         let EmptyX = ButtonPos2()[0]
         let EmptyY = ButtonPos2()[1]
-        Position()
     if(BtnX==EmptyX && (BtnY==EmptyY+1 || BtnY==EmptyY-1))
     {
         return true
@@ -445,8 +430,5 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         return true
     }
     return false
-
-
-
-}
+    }
 }
