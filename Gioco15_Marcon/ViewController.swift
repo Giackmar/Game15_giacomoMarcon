@@ -101,7 +101,7 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         }
         if(difficoltàSelezionata=="medio")
         {
-            return 9
+            return 19
         }
         if(difficoltàSelezionata=="difficile")
         {
@@ -111,7 +111,7 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         {
             return 9999
         }
-        return 1
+        return 5
     }
        
     
