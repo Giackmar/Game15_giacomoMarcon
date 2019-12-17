@@ -97,15 +97,15 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
     {
         if(difficoltàSelezionata=="facile")
         {
-            return 1
+            return 5
         }
         if(difficoltàSelezionata=="medio")
         {
-            return 5
+            return 9
         }
         if(difficoltàSelezionata=="difficile")
         {
-            return 9
+            return 99
         }
         if(difficoltàSelezionata=="impossibile")
         {
