@@ -1,5 +1,3 @@
-Game15_giacomoMarcon
+Programma Completo
 
-! Programma Incompleto !
-   Se cliccato il bottone creaPartita si visualizzerà la matrice iniziale scombinata.
-   Attenzione il pulsante funziona 1 sola volta dopo la quale bisognerà riavviare il programma
+Per iniziare a giocare bisogna selezionare il livello di difficoltà e premere il bottone CreaPartita
