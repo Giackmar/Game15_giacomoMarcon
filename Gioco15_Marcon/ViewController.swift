@@ -31,20 +31,30 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
     @IBOutlet weak var TabellaVitoria: UILabel!
     
     
-    var matriceButton: [[UIButton]] = [[]]; //matrice di button che scombino
-    var matriceButtonOrdinata: [[UIButton]] = [[]]; //matrice di button ordinata
+    var matriceButton: [[UIButton]] = [[]] //matrice di button che scombino
+    var matriceButtonOrdinata: [[UIButton]] = [[]] //matrice di button ordinata
     var numberMessUp = 2; //numero di volte che scombino in 1 giro (facile=2*numberMessUp  medio=3*numberMessUp  ecc..)
     let difficoltà = ["facile","medio","difficile","impossibile"] //array di difficoltà tra cui scegliere
     var difficoltàSelezionata = ""; //variabile contenente la stringa corrispondente alla difficoltà selezionata
+    var matriceImmagini: [[UIImage]] = [[]]
 
     
     override func viewDidLoad() 
     {
         super.viewDidLoad()
+        Picker1.setValue(UIColor.black, forKey: "textColor")
         matriceButton = [[Btn1,Btn2,Btn3,Btn4],[Btn5,Btn6,Btn7,Btn8],[Btn9,Btn10,Btn11,Btn12],[Btn13,Btn14,Btn15,Btn16]];
         matriceButtonOrdinata = matriceButton; //"riempio" le matrici di button
         Picker1.dataSource = self
         Picker1.delegate = self
+        matriceImmagini =
+            [[UIImage(named: "1.png")!,UIImage(named: "2.png")!,UIImage(named: "3.png")!,UIImage(named: "4.png")!],
+            [UIImage(named: "5.png")!,UIImage(named: "6.png")!,UIImage(named: "7.png")!,UIImage(named: "8.png")!],
+            [UIImage(named: "9.png")!,UIImage(named: "10.png")!,UIImage(named: "11.png")!,UIImage(named: "12.png")!],
+            [UIImage(named: "13.png")!,UIImage(named: "14.png")!,UIImage(named: "15.png")!,UIImage(named: "16.png")!]
+                
+                
+        ]
         
         //nascondo la tabella vittoria mentre abilito i button
         TabellaVitoria.isHidden = true; 
@@ -97,11 +107,11 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
     {
         if(difficoltàSelezionata=="facile")
         {
-            return 5
+            return 15
         }
         if(difficoltàSelezionata=="medio")
         {
-            return 19
+            return 55
         }
         if(difficoltàSelezionata=="difficile")
         {
@@ -111,7 +121,7 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         {
             return 9999
         }
-        return 5
+        return 15
     }
        
     
@@ -182,6 +192,7 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
                     titolo = ""
                 }
                 matriceButtonOrdinata[n1][n2].setTitle(titolo, for: .normal)
+                matriceButtonOrdinata[n1][n2].setImage(matriceImmagini[n1][n2], for: .normal)
             }
         }
             messUp();
@@ -221,6 +232,7 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         Btn.setTitle("", for: .normal)
         matriceButton[EmptyX][EmptyY] = Btn
         matriceButton[btnX][btnY] = BtnEmpty
+        ScambioImmagini(btn1:Btn , btn2:BtnEmpty)
     }
     
     
@@ -257,7 +269,21 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
         }
     }
     
+    func ScambioImmagini(btn1:UIButton , btn2:UIButton)
+    {
+        let image1 = btn1.image(for: .normal)
+        let image2 = btn2.image(for: .normal)
+        btn1.setImage(image2, for: .normal)
+        btn2.setImage(image1, for: .normal)
+    }
     
+    func scambioTesto(btn1:UIButton , btn2:UIButton)
+    {
+        let testo1 = btn1.title(for: .normal)
+        let testo2 = btn2.title(for: .normal)
+        btn1.setTitle(testo2, for: .normal)
+        btn2.setTitle(testo1, for: .normal)
+    }
     
     func invertitore( pos1:Int, pos2:Int)//sposta randomicamente un bottone adiacente alla posizione vuota e viceversa
     { //genero un bool random ( vero o falso )
@@ -268,24 +294,20 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
                 let pos3=pos1+1;
                 let btn = matriceButtonOrdinata[pos1][pos2]
                 let btn2 = matriceButtonOrdinata[pos3][pos2]
-                let titolo1 = btn.title(for: .normal)
-                let titolo2 = btn2.title(for: .normal)
+                ScambioImmagini(btn1:btn , btn2:btn2)
+                scambioTesto(btn1:btn , btn2:btn2)
                 matriceButton[pos1][pos2] = btn2
                 matriceButton[pos3][pos2] = btn
-                btn2.setTitle(titolo1, for: .normal)
-                btn.setTitle(titolo2, for: .normal)
             }
             else if(pos1==3)
             {
                 let pos3=pos1-1;
                 let btn = matriceButtonOrdinata[pos1][pos2]
                 let btn2 = matriceButtonOrdinata[pos3][pos2]
-                let titolo1 = btn.title(for: .normal)
-                let titolo2 = btn2.title(for: .normal)
+                ScambioImmagini(btn1:btn , btn2:btn2)
+                scambioTesto(btn1:btn , btn2:btn2)
                 matriceButton[pos1][pos2] = btn2
                 matriceButton[pos3][pos2] = btn
-                btn2.setTitle(titolo1, for: .normal)
-                btn.setTitle(titolo2, for: .normal)
             }
             else
             {
@@ -294,24 +316,20 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
                     let pos3=pos1+1;
                     let btn = matriceButtonOrdinata[pos1][pos2]
                     let btn2 = matriceButtonOrdinata[pos3][pos2]
-                    let titolo1 = btn.title(for: .normal)
-                    let titolo2 = btn2.title(for: .normal)
+                    ScambioImmagini(btn1:btn , btn2:btn2)
+                    scambioTesto(btn1:btn , btn2:btn2)
                     matriceButton[pos1][pos2] = btn2
                     matriceButton[pos3][pos2] = btn
-                    btn2.setTitle(titolo1, for: .normal)
-                    btn.setTitle(titolo2, for: .normal)
                 }
                 else
                 {
                     let pos3=pos1-1;
                     let btn = matriceButtonOrdinata[pos1][pos2]
                     let btn2 = matriceButtonOrdinata[pos3][pos2]
-                    let titolo1 = btn.title(for: .normal)
-                    let titolo2 = btn2.title(for: .normal)
+                    ScambioImmagini(btn1:btn , btn2:btn2)
+                    scambioTesto(btn1:btn , btn2:btn2)
                     matriceButton[pos1][pos2] = btn2
                     matriceButton[pos3][pos2] = btn
-                    btn2.setTitle(titolo1, for: .normal)
-                    btn.setTitle(titolo2, for: .normal)
                 }
             }
         }
@@ -322,24 +340,20 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
                 let pos3=pos2+1;
                 let btn = matriceButtonOrdinata[pos1][pos2]
                 let btn2 = matriceButtonOrdinata[pos1][pos3]
-                let titolo1 = btn.title(for: .normal)
-                let titolo2 = btn2.title(for: .normal)
+                ScambioImmagini(btn1:btn , btn2:btn2)
+                scambioTesto(btn1:btn , btn2:btn2)
                 matriceButton[pos1][pos2] = btn2
                 matriceButton[pos1][pos3] = btn
-                btn2.setTitle(titolo1, for: .normal)
-                btn.setTitle(titolo2, for: .normal)
             }
             else if(pos2==3)
             {
                 let pos3=pos2-1;
                 let btn = matriceButtonOrdinata[pos1][pos2]
                 let btn2 = matriceButtonOrdinata[pos1][pos3]
-                let titolo1 = btn.title(for: .normal)
-                let titolo2 = btn2.title(for: .normal)
+                ScambioImmagini(btn1:btn , btn2:btn2)
+                scambioTesto(btn1:btn , btn2:btn2)
                 matriceButton[pos1][pos2] = btn2
                 matriceButton[pos1][pos3] = btn
-                btn2.setTitle(titolo1, for: .normal)
-                btn.setTitle(titolo2, for: .normal)
             }
             else
             {
@@ -348,24 +362,20 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
                     let pos3=pos2+1;
                     let btn = matriceButtonOrdinata[pos1][pos2]
                     let btn2 = matriceButtonOrdinata[pos1][pos3]
-                    let titolo1 = btn.title(for: .normal)
-                    let titolo2 = btn2.title(for: .normal)
+                    ScambioImmagini(btn1:btn , btn2:btn2)
+                    scambioTesto(btn1:btn , btn2:btn2)
                     matriceButton[pos1][pos2] = btn2
                     matriceButton[pos1][pos3] = btn
-                    btn2.setTitle(titolo1, for: .normal)
-                    btn.setTitle(titolo2, for: .normal)
                 }
                 else
                 {
                     let pos3=pos2-1;
                     let btn = matriceButtonOrdinata[pos1][pos2]
                     let btn2 = matriceButtonOrdinata[pos1][pos3]
-                    let titolo1 = btn.title(for: .normal)
-                    let titolo2 = btn2.title(for: .normal)
+                    ScambioImmagini(btn1:btn , btn2:btn2)
+                    scambioTesto(btn1:btn , btn2:btn2)
                     matriceButton[pos1][pos2] = btn2
                     matriceButton[pos1][pos3] = btn
-                    btn2.setTitle(titolo1, for: .normal)
-                    btn.setTitle(titolo2, for: .normal)
                 }
             }
         }
@@ -411,7 +421,7 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     
-    func ButtonPos() -> [Int]
+    /*func ButtonPos() -> [Int]
     {
         var Coordinate: [Int] = [0,0]
         for pos1 in 0...3
@@ -425,7 +435,7 @@ class ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSou
             }
         }
         return Coordinate
-    }
+    }*/
     
     /*func Caricobtn(Btn:UIButton, num:Int) //in base a dove si trova il bottone gli assegno un numero
     {
